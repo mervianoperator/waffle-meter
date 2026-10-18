@@ -1,0 +1,57 @@
+================================================================================
+WAFFLE METER (WM) v1.2 SOFTWARE & SPECIFICATION LICENSE AGREEMENT
+================================================================================
+
+Copyright (c) 2026 Werner Reinhard van der Merwe. All Rights Reserved.
+Publisher Imprint: MOLLYWOOD E-BOOK PUBLISHER
+Location: Sedgefield, Western Cape, South Africa.
+
+This software, source code, mathematical specifications, LaTeX documentation, 
+and associated empirical benchmarks ("The Work") are protected by international 
+copyright laws and applicable intellectual property treaties.
+
+The Work is released under a DUAL-LICENSING MODEL:
+
+--------------------------------------------------------------------------------
+1. NON-PROFIT PERSONAL & EDUCATIONAL LICENSE (FREE)
+--------------------------------------------------------------------------------
+Permission is hereby granted, free of charge, to any individual, student, 
+educator, or academic researcher to use, copy, run, study, and modify The Work 
+solely for personal, non-commercial, or academic research purposes, subject to 
+the following conditions:
+
+  A. ATTRIBUTION: The original copyright notice, publisher imprint, author 
+     attribution (Werner Reinhard van der Merwe), and this license notice 
+     must be included in all copies or substantial portions of The Work.
+
+  B. NO COMMERCIAL USE: The Work may not be integrated into commercial 
+     software products, enterprise Learning Management Systems (LMS), 
+     proprietary SaaS platforms, or monetized AI detection utilities under 
+     this tier.
+
+  C. NO WARRANTY: The Work is provided "AS IS", without warranty of any kind, 
+     express or implied, including but not limited to the warranties of 
+     merchantability, fitness for a particular purpose, and non-infringement.
+
+--------------------------------------------------------------------------------
+2. COMMERCIAL & ENTERPRISE LICENSE (REQUIRES AUTHORIZATION)
+--------------------------------------------------------------------------------
+Any commercial deployment, enterprise integration, SaaS offering, educational 
+software vendor usage, proprietary LMS plugin integration, or for-profit 
+redistribution of The Work requires a separate, formal Commercial License.
+
+To inquire about commercial licensing terms, API integrations, or institutional 
+deployment authorizations, please contact:
+
+  Copyright Holder: Werner Reinhard van der Merwe
+  Imprint: MOLLYWOOD E-BOOK PUBLISHER
+  GitHub: https://github.com/mervianoperator/waffle-meter
+
+--------------------------------------------------------------------------------
+3. INTELLECTUAL PROPERTY & TRADEMARK RESTRICTIONS
+--------------------------------------------------------------------------------
+The names "Waffle Meter", "WM v1.2", "Composite Waffle Index", and "CWI" are 
+trademarks of Werner Reinhard van der Merwe. No right, license, or interest to 
+such trademarks is granted under this agreement without prior written consent.
+
+================================================================================
