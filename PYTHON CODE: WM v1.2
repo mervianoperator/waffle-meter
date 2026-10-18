@@ -1,0 +1,192 @@
+# ==============================================================================
+# WAFFLE METER (WM) v1.2 - MULTILINGUAL NORMALIZED & READABILITY ANALYZER
+# Copyright (c) 2026 Werner Reinhard van der Merwe (Sedgefield, South Africa)
+# ==============================================================================
+
+import re
+
+def count_syllables(word):
+    """Zero-dependency rule-based syllable counter for Western languages."""
+    word = word.lower()
+    if len(word) <= 3:
+        return 1
+    word = re.sub(r'(?:[^laeiouy]es|ed|[^laeiouy]e)$', '', word)
+    word = re.sub(r'^y', '', word)
+    syllables = len(re.findall(r'[aeiouy]{1,2}', word))
+    return max(1, syllables)
+
+def fibonacci_sequence(max_val):
+    fibs = [1, 2]
+    while fibs[-1] < max_val:
+        fibs.append(fibs[-1] + fibs[-2])
+    return fibs
+
+def analyze_text_v12(text, language="english"):
+    """
+    Calculates letter sum, closest Fibonacci number, signed delta, 
+    multilingual Waffle Density, readability metrics, and language-normalized CWI.
+    """
+    waffle_phrases = [
+        # ENGLISH
+        "furthermore", "moreover", "in addition", "it is important to note", 
+        "crucial role", "testament to", "delve into", "navigate the complex", 
+        "at the end of the day", "needless to say", "in today's fast paced", 
+        "as a matter of fact", "beacon of", "tapestry of", "in conclusion",
+        "to summarize", "overall", "essentially", "fundamentally", "playing a crucial",
+        "it is worth noting", "shed light on", "multifaceted", "dive deep",
+        "in the realm of", "a holistic approach", "paves the way", "vital component",
+        
+        # GERMAN
+        "darüber hinaus", "außerdem", "es ist wichtig zu betonen", "im wesentlichen", 
+        "selbstverständlich", "auf der anderen seite", "von entscheidender bedeutung", 
+        "unter berücksichtigung von", "zusammenfassend", "festzuhalten ist", "maßgeblich",
+        "im rahmen von", "in diesem zusammenhang", "eine wesentliche rolle", 
+        "resümierend lässt sich", "aufgrund der tatsache", "systematische betrachtung",
+        
+        # AFRIKAANS
+        "daarbenewens", "benewens", "dit is belangrik om te let", "deurslaggewende rol", 
+        "om op te som", "in die lig hiervan", "uiteindelik", "onnodig om te sê",
+        "in hierdie verband", "speel 'n belangrike rol", "dit wil sê", "soos reeds gemeld"
+    ]
+    
+    # Sentence extraction
+    sentences = [s.strip() for s in re.split(r'[.!?]+', text) if s.strip()]
+    sentence_count = max(1, len(sentences))
+    
+    words = text.split()
+    total_words = 0
+    total_letter_sum = 0
+    total_syllables = 0
+    complex_words = 0
+    
+    for w in words:
+        cleaned = ''.join([ch.lower() for ch in w if ch.isalpha()])
+        if cleaned:
+            w_sum = sum(ord(ch) - ord('a') + 1 for ch in cleaned)
+            syls = count_syllables(cleaned)
+            
+            total_letter_sum += w_sum
+            total_syllables += syls
+            total_words += 1
+            if syls >= 3:
+                complex_words += 1
+                
+    if total_words == 0:
+        return None
+        
+    # 1. Orthographic & Fibonacci Metrics
+    avg_word_weight = total_letter_sum / total_words
+    fibs = fibonacci_sequence(total_letter_sum + 2000)
+    closest_fib = min(fibs, key=lambda x: abs(x - total_letter_sum))
+    signed_delta = total_letter_sum - closest_fib
+    
+    # 2. Multilingual Waffle Density
+    lower_text = text.lower()
+    waffle_count = sum(1 for phrase in waffle_phrases if phrase in lower_text)
+    waffle_density = (waffle_count / total_words) * 100
+    
+    # 3. Readability Metrics
+    asl = total_words / sentence_count   # Average Sentence Length
+    asw = total_syllables / total_words  # Average Syllables per Word
+    
+    flesch_kincaid = (0.39 * asl) + (11.8 * asw) - 15.59
+    gunning_fog = 0.4 * (asl + (100 * (complex_words / total_words)))
+    complex_pct = (complex_words / total_words) * 100
+    
+    # 4. Raw Composite Waffle Index (CWI v1.2)
+    raw_cwi = (0.40 * (min(avg_word_weight, 110) / 110 * 100)) + \
+              (0.35 * (min(gunning_fog, 25) / 25 * 100)) + \
+              (0.25 * (min(waffle_density, 5) / 5 * 100))
+    
+    # 5. Language Normalization Factor
+    # German and Afrikaans compound words naturally elevate orthographic mass and sentence length
+    lang_factor = 0.85 if language in ["german", "afrikaans"] else 1.0
+    normalized_cwi = raw_cwi * lang_factor
+    
+    return {
+        "language": language,
+        "words": total_words,
+        "sentences": sentence_count,
+        "letter_sum": total_letter_sum,
+        "avg_word_weight": avg_word_weight,
+        "closest_fib": closest_fib,
+        "signed_delta": signed_delta,
+        "complex_pct": complex_pct,
+        "fkgl": flesch_kincaid,
+        "gunning_fog": gunning_fog,
+        "waffle_density": waffle_density,
+        "raw_cwi": raw_cwi,
+        "normalized_cwi": normalized_cwi
+    }
+
+def get_multiline_input():
+    print("\n--- Paste Student Assignment / Essay Below ---")
+    print("(Type 'END' on a new line when finished):\n")
+    lines = []
+    while True:
+        try:
+            line = input()
+            if line.strip() == "END":
+                break
+            lines.append(line)
+        except EOFError:
+            break
+    return "\n".join(lines)
+
+def run_academic_detector_v12():
+    print("=" * 60)
+    print("      WAFFLE METER (WM) v1.2 - LANGUAGE SELECTOR")
+    print("      Copyright (c) 2026 Werner Reinhard van der Merwe")
+    print("=" * 60)
+    print("Select Text Language:")
+    print(" [1] English")
+    print(" [2] German (Deutsch)")
+    print(" [3] Afrikaans")
+    
+    choice = input("Enter choice (1-3, default 1): ").strip()
+    lang_map = {"1": "english", "2": "german", "3": "afrikaans"}
+    selected_lang = lang_map.get(choice, "english")
+    print(f"\nSelected Language Mode: {selected_lang.capitalize()}")
+
+    text = get_multiline_input()
+    res = analyze_text_v12(text, language=selected_lang)
+    
+    if not res:
+        print("\n⚠️ Analysis Error: No valid alphabetical text found.\n")
+        return
+
+    # Assessment Heuristics using Normalized CWI
+    cwi = res['normalized_cwi']
+    if cwi >= 55.0 or res['avg_word_weight'] > 90.0 or res['gunning_fog'] > 18.0:
+        assessment = "🚩 LIKELY AI-GENERATED / HIGH WAFFLE PADDING"
+        confidence = "High"
+    elif cwi >= 40.0 or res['avg_word_weight'] > 78.0 or res['gunning_fog'] > 14.0:
+        assessment = "⚠️ MODERATE WAFFLE DETECTED (Review Suggested)"
+        confidence = "Medium"
+    else:
+        assessment = "✅ LIKELY HUMAN / CONCISE WRITING"
+        confidence = "High"
+
+    print("\n" + "=" * 70)
+    print(f"      WAFFLE METER v1.2 REPORT ({selected_lang.upper()} NORMALIZED)")
+    print("      Copyright (c) 2026 Werner Reinhard van der Merwe")
+    print("=" * 70)
+    print(f"Total Word Count      : {res['words']}")
+    print(f"Total Sentences       : {res['sentences']}")
+    print(f"Total Letter Sum      : {res['letter_sum']}")
+    print(f"Avg Word Weight       : {res['avg_word_weight']:.1f} pts/word")
+    print(f"Closest Fibonacci     : {res['closest_fib']}")
+    print(f"Fibonacci Delta       : {res['signed_delta']:+d}")
+    print("-" * 70)
+    print(f"Complex Words (3+ syl): {res['complex_pct']:.1f}%")
+    print(f"Flesch-Kincaid Grade  : Grade {res['fkgl']:.1f}")
+    print(f"Gunning Fog Index     : {res['gunning_fog']:.1f}")
+    print(f"Waffle Density        : {res['waffle_density']:.2f}%")
+    print(f"Normalized CWI Score  : {res['normalized_cwi']:.1f} / 100 (Raw: {res['raw_cwi']:.1f})")
+    print("-" * 70)
+    print(f"DETECTOR ASSESSMENT   : {assessment}")
+    print(f"CONFIDENCE LEVEL      : {confidence}")
+    print("=" * 70 + "\n")
+
+if __name__ == "__main__":
+    run_academic_detector_v12()
