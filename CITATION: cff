@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software or whitepaper, please cite it as below."
+type: software
+title: "Waffle Meter (WM) v1.2: A Deterministic, Privacy-First Framework for Multilingual AI Text Detection & Linguistic Verbosity Analysis"
+authors:
+  - family-names: "van der Merwe"
+    given-names: "Werner Reinhard"
+repository-code: "https://github.com/mervianoperator/waffle-meter"
+keywords:
+  - ai-detection
+  - computational-linguistics
+  - deterministic
+  - readability
+  - python
+version: "1.2.0"
+date-released: "2026-10-18"
